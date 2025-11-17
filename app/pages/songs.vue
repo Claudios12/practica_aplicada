@@ -32,7 +32,7 @@ const canciones = [
     titulo: "Billie Jean",
     artista: "Michael Jackson",
     url: "/audio/billie-jean.mp3",
-    precio: "5.000"
+    precio: "5.000",
   },
   {
     id: 2,

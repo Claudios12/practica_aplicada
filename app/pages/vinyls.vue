@@ -30,21 +30,21 @@ const vinilos = [
     titulo: "Abbey Road",
     artista: "The Beatles",
     precio: "120.000",
-    imagen: "https://via.placeholder.com/400x400"
+    imagen: "https://upload.wikimedia.org/wikipedia/en/4/42/Beatles_-_Abbey_Road.jpg"
   },
   {
     id: 2,
     titulo: "Thriller",
     artista: "Michael Jackson",
     precio: "150.000",
-    imagen: "https://via.placeholder.com/400x400"
+    imagen: "https://upload.wikimedia.org/wikipedia/en/5/55/Michael_Jackson_-_Thriller.png"
   },
   {
     id: 3,
     titulo: "Random Access Memories",
     artista: "Daft Punk",
     precio: "130.000",
-    imagen: "https://via.placeholder.com/400x400"
+    imagen: "https://upload.wikimedia.org/wikipedia/en/2/26/Daft_Punk_-_Random_Access_Memories.png"
   }
 ];
 useHead({
