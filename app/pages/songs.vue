@@ -28,21 +28,21 @@
 <script setup>
 const canciones = [
   {
-    id: 1,
+    productId: 1,
     titulo: "Billie Jean",
     artista: "Michael Jackson",
     url: "/audio/billie-jean.mp3",
     precio: "5.000",
   },
   {
-    id: 2,
+    productId: 2,
     titulo: "Around the World",
     artista: "Daft Punk",
     url: "/audio/around.mp3",
     precio: "5.000"
   },
   {
-    id: 3,
+    productId: 3,
     titulo: "Imagine",
     artista: "John Lennon",
     url: "/audio/imagine.mp3",
