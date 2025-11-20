@@ -1,7 +1,8 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
 import { getFirestore } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
+import { defineNuxtPlugin } from "#app";
 
 export default defineNuxtPlugin((nuxtApp) => {
 const firebaseConfig = {
@@ -18,10 +19,13 @@ const firebaseConfig = {
 
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
+ const auth = getAuth(app);
 
+ 
   return {
     provide: {
       db, // esto lo hace accesible como $db
+      auth, // esto lo hace accesible como $auth
     },
   };
 });

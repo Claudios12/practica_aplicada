@@ -70,7 +70,6 @@ const vinyls = ref([
 const addToCart = async (vinilo: any) => {
   try {
     await addDoc(collection($db, "cart"), vinilo);
-    alert(`${vinilo.titulo} agregado al carrito`);
   } catch (error) {
     console.error("Error agregando al carrito:", error);
     alert("No se pudo agregar al carrito");
