@@ -8,11 +8,19 @@
         :key="vinilo.id" 
         class="bg-white rounded-2xl shadow-lg overflow-hidden flex flex-col"
       >
-        <img :src="vinilo.imagen" :alt="vinilo.titulo" class="h-64 w-full object-cover" />
+        <!-- Imagen clickeable -->
+        <NuxtLink :to="`/vinyls/${vinilo.id}`">
+          <img :src="vinilo.imagen" :alt="vinilo.titulo" class="h-64 w-full object-cover hover:opacity-90 transition" />
+        </NuxtLink>
 
         <div class="p-4 flex-1 flex flex-col justify-between">
           <div>
-            <h2 class="text-xl font-semibold mb-2">{{ vinilo.titulo }}</h2>
+            <NuxtLink :to="`/vinyls/${vinilo.id}`">
+              <h2 class="text-xl font-semibold mb-2 hover:underline">
+                {{ vinilo.titulo }}
+              </h2>
+            </NuxtLink>
+
             <p class="text-gray-600 mb-4">{{ vinilo.descripcion }}</p>
             <p class="text-indigo-700 font-bold text-lg">${{ vinilo.precio }}</p>
           </div>
@@ -32,7 +40,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { collection, addDoc } from "firebase/firestore";
-const { $db } = useNuxtApp(); 
+const { $db } = useNuxtApp();
 
 // Lista de vinilos
 const vinyls = ref([
@@ -48,7 +56,7 @@ const vinyls = ref([
     titulo: "Thriller - Michael Jackson",
     descripcion: "El álbum más vendido de todos los tiempos.",
     precio: 145000,
-    imagen: "https://cdn.shopify.com/s/files/1/0704/2026/7313/files/8448106660145_85quality_Michael_Jackson_-_Thriller_25th_Anniversary_Edition.webp?v=1734325729&width=368" ,
+    imagen: "https://cdn.shopify.com/s/files/1/0704/2026/7313/files/8448106660145_85quality_Michael_Jackson_-_Thriller_25th_Anniversary_Edition.webp?v=1734325729&width=368",
   },
   {
     id: 3,
@@ -57,13 +65,13 @@ const vinyls = ref([
     precio: 132000,
     imagen: "https://store.acdc.com/cdn/shop/files/X3LPAC14.jpg?v=1739997264",
   },
-    {
-        id: 4,
-        titulo: "From the Start - Laufey",
-        descripcion: "Álbum debut de la talentosa cantante y compositora Laufey.",
-        precio: 27.00,
-        imagen: "https://tigervaultrecords.com/cdn/shop/files/B8F00A25-AAB3-4EE4-B88A-BF7F6899D093.jpg?v=1731345985&width=1920",
-    }
+  {
+    id: 4,
+    titulo: "From the Start - Laufey",
+    descripcion: "Álbum debut de la talentosa cantante y compositora Laufey.",
+    precio: 27000,
+    imagen: "https://tigervaultrecords.com/cdn/shop/files/B8F00A25-AAB3-4EE4-B88A-BF7F6899D093.jpg?v=1731345985&width=1920",
+  }
 ]);
 
 // Función para agregar al carrito
@@ -76,7 +84,3 @@ const addToCart = async (vinilo: any) => {
   }
 };
 </script>
-
-<style scoped>
-/* Opcional: ajustes para que los textos se vean mejor sobre las tarjetas */
-</style>
