@@ -14,7 +14,12 @@
           <li>
             <NuxtLink to="/songs" class="hover:underline">Canciones</NuxtLink>
           </li>
-
+          <li>
+            <NuxtLink to="/playlist" class="hover:underline">Mi Música</NuxtLink>
+          </li>
+          <li>
+            <NuxtLink to="/pedidos" class="hover:underline">Pedidos</NuxtLink>  
+          </li>
           <!-- 🔥 BOTÓN DE CARRITO CON CONTADOR -->
           <li class="relative">
             <NuxtLink to="/carrito" class="hover:underline flex items-center gap-1">

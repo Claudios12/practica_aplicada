@@ -17,12 +17,13 @@
 
 <script setup>
 import { useRouter } from "vue-router";
-import { doc, setDoc, getDocs, collection, deleteDoc } from "firebase/firestore";
+import { doc, setDoc, getDocs, collection, deleteDoc, addDoc } from "firebase/firestore";
 
 const router = useRouter();
 const { $db } = useNuxtApp();
+const { user, loadingUser } = useCurrentUser();
 
-// 🔥 Leer carrito directamente desde Firestore
+// 🔥 Obtener carrito real
 const obtenerCarrito = async () => {
   const snapshot = await getDocs(collection($db, "cart"));
   return snapshot.docs.map(d => ({
@@ -38,6 +39,17 @@ const vaciarCarrito = async () => {
 };
 
 const confirmarPago = async () => {
+
+  // Esperar a que Auth cargue
+  if (loadingUser.value) {
+    return alert("Cargando usuario...");
+  }
+
+  if (!user.value) {
+    alert("Debes iniciar sesión para comprar.");
+    return router.push("/login");
+  }
+
   const datosEnvio = JSON.parse(sessionStorage.getItem("datos_envio"));
 
   if (!datosEnvio) {
@@ -52,18 +64,35 @@ const confirmarPago = async () => {
     return router.push("/carrito");
   }
 
-  const total = carrito.reduce((acc, item) => acc + item.precio, 0);
+  const total = carrito.reduce((acc, item) => acc + Number(item.precio), 0);
 
   const orderId = Date.now().toString();
 
-  await setDoc(doc($db, "pedidos", orderId), {
+  // 🔥 GUARDAR PEDIDO
+  await setDoc(doc($db, "orders", orderId), {
     id: orderId,
+    userId: user.value.uid,      // 👈 FUNDAMENTAL
     productos: carrito,
     total,
-    aprobado: false,
     datosEnvio,
+    aprobado: false,
     timestamp: new Date(),
   });
+
+  // 🔥 GUARDAR CANCIONES COMPRADAS
+  const canciones = carrito.filter(item => item.url); // tiene URL = es canción
+
+  for (const song of canciones) {
+    await addDoc(collection($db, "purchased_songs"), {
+      userId: user.value.uid,
+      productId: song.productId,
+      titulo: song.titulo,
+      artista: song.artista,
+      url: song.url,
+      precio: song.precio,
+      fechaCompra: new Date(),
+    });
+  }
 
   await vaciarCarrito();
 

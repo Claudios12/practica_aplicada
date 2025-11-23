@@ -26,7 +26,7 @@
           </div>
 
           <audio controls class="w-full mb-3">
-          <source :src="song.url" type="audio/mpeg" />
+          <source :src="song.urlprueba" type="audio/mpeg" />
         </audio>
           
           <button
@@ -55,7 +55,8 @@ const songs = ref([
     descripcion: "Canciòn popular de Daft Punk.",
     precio: 5000,
     imagen: "https://uk-shop.daftpunk.com/cdn/shop/files/DP_RAM.jpg?v=1757505811",
-    url:"/audio/get-lucky.mp3"
+    urlprueba:"/audio/get-lucky.mp3",
+    url:"/audio/get_lucky_completo.mp3"
   },
   {
     id: 2,
@@ -64,7 +65,9 @@ const songs = ref([
     descripcion: "Canciòn icónica de Michael Jackson.",
     precio: 5000,
     imagen: "https://cdn.shopify.com/s/files/1/0704/2026/7313/files/8448106660145_85quality_Michael_Jackson_-_Thriller_25th_Anniversary_Edition.webp?v=1734325729&width=368",
-    url:"/audio/thriller.mp3"
+    urlprueba:"/audio/thriller.mp3",
+    url:"/audio/thriller_completo.mp3"
+
   },
   {
     id: 3,
@@ -73,7 +76,8 @@ const songs = ref([
     descripcion: "Canciòn clásica de AC/DC.",
     precio: 5000,
     imagen: "https://store.acdc.com/cdn/shop/files/X3LPAC14.jpg?v=1739997264",
-    url:"/audio/back-in-black.mp3"
+    urlprueba:"/audio/back-in-black.mp3",
+    url:"/audio/back_in_black_completo.mp3"
   },
   {
     id: 4,
@@ -82,14 +86,23 @@ const songs = ref([
     descripcion: "Canciòn melódica de Laufey.",
     precio: 5000,
     imagen: "https://tigervaultrecords.com/cdn/shop/files/B8F00A25-AAB3-4EE4-B88A-BF7F6899D093.jpg?v=1731345985&width=1920",
-    url:"/audio/from-the-start.mp3"
+    urlprueba:"/audio/from-the-start.mp3",
+    url:"/audio/from_the_start_completo.mp3"
   }
 ]);
 
 // Función para agregar al carrito
-const addToCart = async (vinilo: any) => {
+const addToCart = async (song: any) => {
   try {
-    await addDoc(collection($db, "cart"), vinilo);
+    await addDoc(collection($db, "cart"), {
+      productId: song.id,
+      titulo: song.titulo,
+      artista: song.artista,
+      precio: song.precio,
+      imagen: song.imagen ?? null,
+      url: song.url ?? null,
+
+    });
   } catch (error) {
     console.error("Error agregando al carrito:", error);
     alert("No se pudo agregar al carrito");

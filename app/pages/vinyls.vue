@@ -5,17 +5,17 @@
     <div class="container mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
       <div 
         v-for="vinilo in vinyls" 
-        :key="vinilo.id" 
+        :key="vinilo.productId" 
         class="bg-white rounded-2xl shadow-lg overflow-hidden flex flex-col"
       >
         <!-- Imagen clickeable -->
-        <NuxtLink :to="`/vinyls/${vinilo.id}`">
+        <NuxtLink :to="`/vinyls/${vinilo.productId}`">
           <img :src="vinilo.imagen" :alt="vinilo.titulo" class="h-64 w-full object-cover hover:opacity-90 transition" />
         </NuxtLink>
 
         <div class="p-4 flex-1 flex flex-col justify-between">
           <div>
-            <NuxtLink :to="`/vinyls/${vinilo.id}`">
+            <NuxtLink :to="`/vinyls/${vinilo.productId}`">
               <h2 class="text-xl font-semibold mb-2 hover:underline">
                 {{ vinilo.titulo }}
               </h2>
@@ -45,28 +45,28 @@ const { $db } = useNuxtApp();
 // Lista de vinilos
 const vinyls = ref([
   {
-    id: 1,
+    productId: 1,
     titulo: "Random Access Memories - Daft Punk",
     descripcion: "Álbum ganador del Grammy con éxitos como 'Get Lucky'.",
     precio: 145000,
     imagen: "https://uk-shop.daftpunk.com/cdn/shop/files/DP_RAM.jpg?v=1757505811"
   },
   {
-    id: 2,
+    productId: 2,
     titulo: "Thriller - Michael Jackson",
     descripcion: "El álbum más vendido de todos los tiempos.",
     precio: 145000,
     imagen: "https://cdn.shopify.com/s/files/1/0704/2026/7313/files/8448106660145_85quality_Michael_Jackson_-_Thriller_25th_Anniversary_Edition.webp?v=1734325729&width=368",
   },
   {
-    id: 3,
+    productId: 3,
     titulo: "Back in Black - AC/DC",
     descripcion: "Rock clásico de la banda AC/DC.",
     precio: 132000,
     imagen: "https://store.acdc.com/cdn/shop/files/X3LPAC14.jpg?v=1739997264",
   },
   {
-    id: 4,
+    productId: 4,
     titulo: "From the Start - Laufey",
     descripcion: "Álbum debut de la talentosa cantante y compositora Laufey.",
     precio: 27000,
@@ -77,7 +77,14 @@ const vinyls = ref([
 // Función para agregar al carrito
 const addToCart = async (vinilo: any) => {
   try {
-    await addDoc(collection($db, "cart"), vinilo);
+    await addDoc(collection($db, "cart"), {
+      productId: vinilo.productId,
+      titulo: vinilo.titulo,
+      artista: vinilo.artista ?? null,
+      precio: vinilo.precio,
+      imagen: vinilo.imagen ?? null,
+      url: vinilo.url ?? null
+    });
   } catch (error) {
     console.error("Error agregando al carrito:", error);
     alert("No se pudo agregar al carrito");
