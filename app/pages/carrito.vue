@@ -1,4 +1,4 @@
-¿<template>
+<template>
   <section class="container mx-auto py-10">
     <h1 class="text-4xl font-bold mb-6 text-center text-gray-800">Tu Carrito</h1>
 
@@ -7,37 +7,57 @@
     </div>
 
     <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      <div v-for="item in carrito" :key="item._docId" class="bg-white rounded-xl shadow p-4 flex flex-col">
-        <img :src="item.imagen" :alt="item.titulo" class="w-full h-60 object-cover rounded-lg mb-4" />
+      <div 
+        v-for="item in carrito" 
+        :key="item._docId" 
+        class="bg-white rounded-xl shadow p-4 flex flex-col"
+      >
+        <img 
+          :src="item.imagen" 
+          :alt="item.titulo" 
+          class="w-full h-60 object-cover rounded-lg mb-4" 
+        />
+
         <h2 class="text-xl font-semibold mb-2">{{ item.titulo }}</h2>
         <p class="text-gray-600 mb-2">{{ item.artista }}</p>
         <p class="font-bold text-indigo-700 mb-4">{{ item.precio }} COP</p>
 
         <button
           @click="eliminarDelCarrito(item._docId)"
-          class="mt-auto px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition">
+          class="mt-auto px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition"
+        >
           Eliminar
         </button>
       </div>
     </div>
-    <div class="flex justify-end mt-8" v-if="carrito.length > 0">
-  <NuxtLink
-    to="/envio"
-    class="px-6 py-3 bg-green-600 text-white rounded-lg text-lg font-bold hover:bg-green-700 shadow">
-    Proceder al Pago
-  </NuxtLink>
-</div>
+
+    <!-- 🔥 TOTAL DEL CARRITO -->
+    <div
+      v-if="carrito.length > 0"
+      class="mt-10 flex justify-between items-center border-t pt-6"
+    >
+      <h2 class="text-2xl font-bold text-gray-800">
+        Total: <span class="text-indigo-700">{{ totalFormateado }}</span>
+      </h2>
+
+      <NuxtLink
+        to="/envio"
+        class="px-6 py-3 bg-green-600 text-white rounded-lg text-lg font-bold hover:bg-green-700 shadow"
+      >
+        Proceder al Pago
+      </NuxtLink>
+    </div>
   </section>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import { collection, getDocs, deleteDoc, doc } from "firebase/firestore";
 
 const { $db } = useNuxtApp();
 
 interface ItemCarrito {
-  _docId: string;       
+  _docId: string;
   titulo: string;
   artista: string;
   precio: number;
@@ -46,25 +66,35 @@ interface ItemCarrito {
 
 const carrito = ref<ItemCarrito[]>([]);
 
-// 🔥 Obtener carrito con el ID REAL
+// 🔥 Obtener carrito con ID real
 const obtenerCarrito = async () => {
-  const querySnapshot = await getDocs(collection($db, "cart"));
+  const snapshot = await getDocs(collection($db, "cart"));
 
-  carrito.value = querySnapshot.docs.map((viniloDoc) => ({
-    _docId: viniloDoc.id,
-    ...(viniloDoc.data() as Omit<ItemCarrito, "_docId">)
+  carrito.value = snapshot.docs.map((docSnap) => ({
+    _docId: docSnap.id,
+    ...(docSnap.data() as Omit<ItemCarrito, "_docId">),
   }));
 };
 
-// 🔥 Eliminar usando el ID REAL (_docId)
+// 🔥 Eliminar item del carrito
 const eliminarDelCarrito = async (id: string) => {
   try {
     await deleteDoc(doc($db, "cart", id));
     carrito.value = carrito.value.filter((item) => item._docId !== id);
-  } catch (err) {
-    console.error("Error eliminando del carrito:", err);
+  } catch (error) {
+    console.error("Error eliminando del carrito:", error);
   }
 };
+
+// 🔥 Calcular total en tiempo real
+const total = computed(() =>
+  carrito.value.reduce((sum, item) => sum + item.precio, 0)
+);
+
+// 🔥 Formatear precio
+const totalFormateado = computed(() =>
+  total.value.toLocaleString("es-CO") + " COP"
+);
 
 onMounted(() => {
   obtenerCarrito();

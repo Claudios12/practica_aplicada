@@ -24,18 +24,30 @@ const router = useRouter();
 
 onMounted(() => {
   const orderId = route.query.id;
-  if (!orderId) return;
+  console.log("ID recibido en query:", orderId);
 
-  const ref = doc($db, "pedidos", orderId);
+  if (!orderId) {
+    console.error("❌ No llegó ningún ID por query");
+    return;
+  }
+
+  const ref = doc($db, "orders", orderId);
+  console.log("Escuchando documento:", ref.path);
 
   onSnapshot(ref, (snap) => {
+    console.log("📡 Snapshot:", snap.exists(), snap.data());
+
+    if (!snap.exists()) {
+      console.error("❌ El documento con ese ID NO existe en pedidos.");
+      return;
+    }
+
     const data = snap.data();
-    if (!data) return;
 
     if (data.aprobado === true) {
+      console.log("🔥 Pedido aprobado — Redirigiendo…");
       router.push("/pedido-aprovado");
     }
   });
 });
 </script>
-

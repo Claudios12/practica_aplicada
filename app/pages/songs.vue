@@ -54,7 +54,7 @@ const songs = ref([
     artista: "Daft Punk",
     descripcion: "Canciòn popular de Daft Punk.",
     precio: 5000,
-    imagen: "https://uk-shop.daftpunk.com/cdn/shop/files/DP_RAM.jpg?v=1757505811",
+    imagen: "https://upload.wikimedia.org/wikipedia/en/7/71/Get_Lucky.jpg",
     urlprueba:"/audio/get-lucky.mp3",
     url:"/audio/get_lucky_completo.mp3"
   },
@@ -64,7 +64,7 @@ const songs = ref([
     artista: "Michael Jackson",
     descripcion: "Canciòn icónica de Michael Jackson.",
     precio: 5000,
-    imagen: "https://cdn.shopify.com/s/files/1/0704/2026/7313/files/8448106660145_85quality_Michael_Jackson_-_Thriller_25th_Anniversary_Edition.webp?v=1734325729&width=368",
+    imagen: "https://upload.wikimedia.org/wikipedia/en/8/89/Michael_jackson_thriller_12_inch_single_USA.jpg",
     urlprueba:"/audio/thriller.mp3",
     url:"/audio/thriller_completo.mp3"
 
@@ -75,7 +75,7 @@ const songs = ref([
     artista: "AC/DC",
     descripcion: "Canciòn clásica de AC/DC.",
     precio: 5000,
-    imagen: "https://store.acdc.com/cdn/shop/files/X3LPAC14.jpg?v=1739997264",
+    imagen: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSG563E6p5rw9Qg98N8M53jGTyu2tiAj9oHQA&s",
     urlprueba:"/audio/back-in-black.mp3",
     url:"/audio/back_in_black_completo.mp3"
   },
@@ -85,7 +85,7 @@ const songs = ref([
     artista: "Laufey",
     descripcion: "Canciòn melódica de Laufey.",
     precio: 5000,
-    imagen: "https://tigervaultrecords.com/cdn/shop/files/B8F00A25-AAB3-4EE4-B88A-BF7F6899D093.jpg?v=1731345985&width=1920",
+    imagen: "https://i.discogs.com/QZdqej7qQgStB1grzTASg98ACtUCOAYsuIZpbmoXUOA/rs:fit/g:sm/q:40/h:300/w:300/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI4MzEx/OTc2LTE2OTQ5ODkz/NzItNjA2NS5qcGVn.jpeg",
     urlprueba:"/audio/from-the-start.mp3",
     url:"/audio/from_the_start_completo.mp3"
   }
